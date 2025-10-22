@@ -107,6 +107,18 @@ header {
         border-bottom: 2px solid $primary-color;
         padding-bottom: 6px;
       }
+      /* stronger selectors to catch react-bootstrap/Bootstrap rendered structure */
+      &[aria-current="page"] {
+        color: $primary-color;
+        border-bottom: 2px solid $primary-color;
+        padding-bottom: 6px;
+      }
+      /* parent .nav-item.active .nav-link */
+      .nav-item & {
+        &.active {
+          color: $primary-color;
+        }
+      }
     }
   
   }
@@ -123,6 +135,14 @@ header {
       font-size: 1.5em;
       font-weight: 500;
     }
+  }
+  /* Strong override to ensure active nav link shows primary color (covers Bootstrap/React-Bootstrap structures) */
+  .navbar .nav-link.active,
+  .navbar .nav-link[aria-current="page"],
+  .navbar .nav-item.active .nav-link {
+    color: $primary-color !important;
+    border-bottom: 2px solid $primary-color;
+    padding-bottom: 6px;
   }
 }
 
@@ -146,6 +166,7 @@ header {
 footer{
   background-color: $dark-background;
   color: $text-white;
+  
   h3{
     font-size: 1.5em;
     color: $primary-color;
@@ -153,6 +174,12 @@ footer{
   ul{
     li{
       padding: 5px 0;
+      a{
+        &:hover{
+          color: $primary-color;
+        padding-bottom: 6px;
+        }
+      }
     }
   }
   a{
@@ -164,6 +191,8 @@ footer{
     color: $primary-color;
     font-weight: 500;
   }
+  
+  
 }
 /* Scroll Top */
   .scroll_top {
