@@ -47,12 +47,12 @@ const Footer = () => {
             <div className="col-md-3 mb-3">
               <h3>Quick Links</h3>
               <ul>
-                <li><Link to="#">Home</Link></li>
-                <li><Link to="#">About Us</Link></li>
-                <li><Link to="#">Services</Link></li>
-                <li><Link to="#">Projects</Link></li>
-                <li><Link to="#">Blog</Link></li>
-                <li><Link to="#">contact Us</Link></li>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/about">About Us</Link></li>
+                <li><Link to="/services">Services</Link></li>
+                <li><Link to="/projects">Projects</Link></li>
+                <li><Link to="/blog">Blogs</Link></li>
+                <li><Link to="/contact">contact Us</Link></li>
               </ul>
             </div>
             <div className="col-md-3 mb-3">
