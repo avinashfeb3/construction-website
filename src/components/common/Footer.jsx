@@ -24,14 +24,13 @@ const Footer = () => {
   });
   return (
     <>
-      <footer>
+      <footer className="footer-wrapper">
         <div className="container py-5">
           <div className="row">
             <div className="col-md-3 mb-3">
               <h3>UrbanScape Builders</h3>
               <p>
-                Our post-construction services gives you peace of mind knowing
-                that we are still here for you even after.
+                Urbanscape Builders is dedicated to creating premium residential and commercial spaces with unmatched quality, innovative designs, and a commitment to exceeding client expectations.
               </p>
             </div>
             <div className="col-md-3 mb-3">
