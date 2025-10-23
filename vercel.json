@@ -1,0 +1,3 @@
+{
+    "text": "\ufeff{\r\n  \"rewrites\": [\r\n    { \"source\": \"\/(.*)\", \"destination\": \"\/\" }\r\n  ]\r\n}\r\n"
+}
