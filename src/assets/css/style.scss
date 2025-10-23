@@ -128,7 +128,7 @@ header {
   .hero {
     background: linear-gradient(to right, #000c, #0000),
       url("../images/hero.jpg");
-    min-height: 410px;
+    min-height: 700px;
     color: $text-white;
     span {
       color: $primary-color;
@@ -214,4 +214,19 @@ footer{
       color: $white-color;
     }  
   
+  }
+  
+
+
+
+  // Media Queries
+  @media (max-width: 476px) {
+    header .navbar.sticky{
+      left:14px;
+      padding-right: 15px;
+    }
+    .section-2 span{
+       margin:10px 11px;
+       padding:10px 0;
+    }
   }

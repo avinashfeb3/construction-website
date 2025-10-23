@@ -74,7 +74,7 @@ const Footer = () => {
          {/* Sroll To Top */}
       {isVisible && (
         <div className="scroll_top" onClick={scrollTop}>
-          <i class="bi bi-arrow-up"></i>
+          <i className="bi bi-arrow-up"></i>
         </div>
       )}
     </>

@@ -33,7 +33,7 @@ const Home = () => {
                   <img src={AboutImg} className='img-fluid'/>
                 </div>
                 <div className="col-md-6">
-                  <span>about us</span>
+                  <span className='about-text'>about us</span>
                   <h2>Crafting structures that last a lifetime</h2>
                   <p className='my-1 py-1'>Building enduring structures requires a comprehensive approach that combines advanced materials, resilient design, routine maintenance, and sustainable practices. By drawing on historical insights and utilizing modern technology.</p>
                   <p className='my-1 py-1'>
