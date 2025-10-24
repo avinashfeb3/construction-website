@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import Layout from "./Layout";
+import Layout from "./layout";
 import Chart from "chart.js/auto";
 
 const Dashboard = () => {
