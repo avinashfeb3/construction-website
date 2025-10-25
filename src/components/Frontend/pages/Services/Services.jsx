@@ -8,7 +8,9 @@ const Services = () => {
     <>
         <Layout>
             {/* Services Banner Section Start */}
+            <div className='mt-4 pt-4'>
             <Hero preheading={'Our Expertise, Your Vision'} heading={'Services'} text={'At Urbanscape Builders, we offer a wide range of construction  <br/>and architectural services tailored to bring your dream projects to life.'} />
+            </div>
             {/* Services Banner Section End */}
 
             {/* Service Grid Section Start */}

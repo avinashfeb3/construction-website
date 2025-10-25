@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import DashboardLogo from "../../assets/images/dashlogo.png";
 import ProfileImg from "../../assets/images/test-1.jpg";
+import { Link } from "react-router-dom";
+import { AuthContext } from "./context/Auth";
+
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const {logout} = useContext(AuthContext);
 
   return (
     <header className="bg-light border-bottom">
@@ -42,16 +46,16 @@ const Header = () => {
               style={{ minWidth: "150px", zIndex: 1000 }}
             >
               <span className="ms-3 mt-3 d-none d-md-block">John Doe</span>
-              <a href="#" className="dropdown-item px-3 py-2">
+              <Link to="#" className="dropdown-item px-3 py-2">
                 My Profile
-              </a>
-              <a href="#" className="dropdown-item px-3 py-2">
+              </Link>
+              <Link to="#" className="dropdown-item px-3 py-2">
                 Settings
-              </a>
+              </Link>
               <div className="dropdown-divider"></div>
-              <a href="login" className="dropdown-item px-3 py-2 text-danger">
+              <Link onClick={logout} className="dropdown-item px-3 py-2 text-danger">
                 Logout
-              </a>
+              </Link>
             </div>
           )}
         </div>

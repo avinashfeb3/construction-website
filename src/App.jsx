@@ -9,6 +9,11 @@ import Contact from "./components/Frontend/pages/Contact/Contact";
 import Login from "./components/backend/Login";
 import { ToastContainer } from "react-toastify";
 import Dashboard from "./components/backend/Dashboard";
+import RequireAuth from "./components/common/RequireAuth";
+import AdminServices from "./components/backend/AdminServices";
+import AdminProjects from "./components/backend/AdminProjects";
+import AdminArticles from "./components/backend/AdminArticles";
+import AdminMembers from "./components/backend/AdminMembers";
 function App() {
   return (
     <>
@@ -21,7 +26,20 @@ function App() {
           <Route path="/blogs" element={<Blogs />}></Route>
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="/admin/login" element={<Login />}></Route>
-          <Route path="/admin/dashboard" element={<Dashboard/>}></Route>
+
+          <Route
+            path="/admin/dashboard"
+            element={
+              <RequireAuth>
+                <Dashboard />
+              </RequireAuth>
+            }
+          ></Route>
+          <Route path="/admin/services" element={<AdminServices />}></Route>
+          <Route path="/admin/projects" element={<AdminProjects />}></Route>
+          <Route path="/admin/articles" element={<AdminArticles />}></Route>
+          <Route path="/admin/members" element={<AdminMembers />}></Route>
+
         </Routes>
       </Router>
       <ToastContainer />

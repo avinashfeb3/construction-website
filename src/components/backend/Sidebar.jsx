@@ -1,23 +1,18 @@
 import React, { useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
-import { MdOutlineDashboard } from "react-icons/md";
-import { RiSettings4Line } from "react-icons/ri";
-import { TbReportAnalytics } from "react-icons/tb";
-import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
-import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
+import { MdMiscellaneousServices, MdOutlineArticle, MdOutlineDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
+import { GrProjects } from "react-icons/gr";
+import { FaRegUser } from "react-icons/fa";
 
 const Sidebar = () => {
   const menus = [
-    { name: "Dashboard", link: "#", icon: MdOutlineDashboard },
-    { name: "User", link: "#", icon: AiOutlineUser },
-    { name: "Messages", link: "#", icon: FiMessageSquare },
-    { name: "Analytics", link: "#", icon: TbReportAnalytics, margin: true },
-    { name: "File Manager", link: "#", icon: FiFolder },
-    { name: "Cart", link: "#", icon: FiShoppingCart },
-    { name: "Saved", link: "#", icon: AiOutlineHeart, margin: true },
-    { name: "Setting", link: "#", icon: RiSettings4Line },
+    { name: "Dashboard", link: "/admin/dashboard", icon: MdOutlineDashboard },
+    { name: "Services", link: "/admin/services", icon: MdMiscellaneousServices },
+    { name: "Projects", link: "/admin/projects", icon: GrProjects },
+    { name: "Articles", link: "/admin/articles", icon: MdOutlineArticle , margin: true },
+    { name: "Members", link: "/admin/members", icon: FaRegUser },
   ];
 
   const [open, setOpen] = useState(false); // Sidebar collapsed by default
@@ -25,7 +20,7 @@ const Sidebar = () => {
 
   return (
     <div className="d-flex flex-column flex-shrink-0 bg-dark text-light" 
-         style={{ width: open ? "220px" : "50px", minHeight: "100vh", transition: "width 0.3s" }}>
+         style={{ width: open ? "220px" : "57px", minHeight: "100vh", transition: "width 0.3s" }}>
       
       {/* Hamburger / Close Icon */}
       <div
@@ -37,7 +32,7 @@ const Sidebar = () => {
       </div>
 
       {/* Menu items */}
-      <ul className="nav nav-pills flex-column mb-auto px-2">
+      <ul className="nav nav-pills flex-column mb-auto px-2 my-2 py-2">
         {menus.map((menu, i) => (
           <li key={i} className={`nav-item ${menu.margin ? "mt-3" : "mt-1"}`} 
               onMouseEnter={() => setHovered(i)} 

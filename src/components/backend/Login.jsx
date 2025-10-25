@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Logo from "../../assets/images/logo.png";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "./context/Auth";
 
 const Login = () => {
+  const {login} = useContext(AuthContext);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const {
@@ -37,6 +39,7 @@ const onSubmit = async (data) => {
         token: result.token,
       }
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
+      login(userInfo);
     }
 
     // Successful login: show toast briefly on the login screen then navigate

@@ -8,7 +8,9 @@ const Projects = () => {
     <>
         <Layout>
            {/* Projects Banner Section Start */}
+           <div className="mt-4 pt-4 mb-4 pb-4">
            <Hero preheading={'Building Dreams, One Landmark at a Time'} heading={'Our Projects'} text={'At Urbscape Builders, we take pride in crafting spaces that redefine modern living. <br/> Each of our projects is a reflection of innovation, quality craftsmanship, and attention <br/> to detail blending aesthetics with functionality.'} />
+           </div>
            {/* Projects Banner Section End */}
 
            {/* Our Projects Section Start */}
