@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import Layout from "../backend/layout";
 import Chart from "chart.js/auto";
+import AdminLayout from "./AdminLayout";
 
 const Dashboard = () => {
   const chartRef = useRef(null);
@@ -32,7 +32,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Layout>
+    <AdminLayout>
       <div className="container">
         <h3 className="mb-4 mt-3">Dashboard</h3>
 
@@ -106,7 +106,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </AdminLayout>
   );
 };
 
