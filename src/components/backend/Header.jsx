@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import DashboardLogo from "../../assets/images/dashlogo.png";
 import ProfileImg from "../../assets/images/test-1.jpg";
 import { Link } from "react-router-dom";
@@ -6,7 +6,21 @@ import { AuthContext } from "./context/Auth";
 
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const {logout} = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
+  const dropdownRef = useRef();
+
+  // Close dropdown on clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]);
 
   return (
     <header className="bg-light border-bottom">
@@ -26,7 +40,7 @@ const Header = () => {
         </div>
 
         {/* Profile Dropdown */}
-        <div className="position-relative">
+        <div className="position-relative" ref={dropdownRef}>
           <div
             className="d-flex align-items-center cursor-pointer"
             onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -45,7 +59,7 @@ const Header = () => {
               className="position-absolute end-0 mt-2 py-2 bg-white shadow rounded"
               style={{ minWidth: "150px", zIndex: 1000 }}
             >
-              <span className="ms-3 mt-3 d-none d-md-block">John Doe</span>
+              <span className="ms-3 mt-2 d-none d-md-block fw-bold">John Doe</span>
               <Link to="#" className="dropdown-item px-3 py-2">
                 My Profile
               </Link>
@@ -53,7 +67,10 @@ const Header = () => {
                 Settings
               </Link>
               <div className="dropdown-divider"></div>
-              <Link onClick={logout} className="dropdown-item px-3 py-2 text-danger">
+              <Link
+                onClick={logout}
+                className="dropdown-item px-3 py-2 text-danger"
+              >
                 Logout
               </Link>
             </div>

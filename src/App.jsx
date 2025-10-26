@@ -14,6 +14,7 @@ import AdminServices from "./components/backend/AdminServices";
 import AdminProjects from "./components/backend/AdminProjects";
 import AdminArticles from "./components/backend/AdminArticles";
 import AdminMembers from "./components/backend/AdminMembers";
+import AdminServicesCreate from "./components/backend/AdminService/AdminServicesCreate";
 function App() {
   return (
     <>
@@ -35,7 +36,8 @@ function App() {
               </RequireAuth>
             }
           ></Route>
-          <Route path="/admin/services" element={<AdminServices />}></Route>
+          <Route path="/admin/services" element={<AdminServices/>}></Route>
+          <Route path="/admin/services/create" element={<AdminServicesCreate/>}></Route>
           <Route path="/admin/projects" element={<AdminProjects />}></Route>
           <Route path="/admin/articles" element={<AdminArticles />}></Route>
           <Route path="/admin/members" element={<AdminMembers />}></Route>
