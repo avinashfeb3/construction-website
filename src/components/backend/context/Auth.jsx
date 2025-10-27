@@ -1,22 +1,33 @@
-import React, {createContext, useState} from 'react'
+import React, { createContext, useState, useEffect } from "react";
+
 export const AuthContext = createContext(null);
 
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
 
-
-export const AuthProvider = ({children}) => {
-    const userInfo = localStorage.getItem("userInfo");
-    const [user, setUser] = useState(userInfo);
-
-    const login = (user) => {
-        setUser(user);
+  // Load user info from localStorage on page refresh
+  useEffect(() => {
+    const storedUser = localStorage.getItem("userInfo");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser)); // convert back to object
     }
-    const logout = () => {
-        localStorage.removeItem("userInfo");
-        setUser(null);
-    }
-     return (
-        <AuthContext.Provider value={{user, login, logout}}>
-            {children}
-        </AuthContext.Provider>
-     )
-}
+  }, []);
+
+  // Login function (save user data)
+  const login = (userData) => {
+    localStorage.setItem("userInfo", JSON.stringify(userData));
+    setUser(userData);
+  };
+
+  // Logout function (clear user data)
+  const logout = () => {
+    localStorage.removeItem("userInfo");
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

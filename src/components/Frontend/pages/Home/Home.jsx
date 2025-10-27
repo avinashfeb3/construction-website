@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../layout";
 import Buttons from "../../../common/Button";
 import { Link } from "react-router-dom";
@@ -7,10 +7,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
 import AboutCommon from "../../../common/AboutCommon";
-import ServiceImg from "../../../../assets/images/construction2.jpg";
-import BuildingImg from "../../../../assets/images/construction4.jpg";
-import ResidentialImg from "../../../../assets/images/construction7.jpg";
-import CoporateImg from "../../../../assets/images/construction6.jpg";
 import GoaImg from "../../../../assets/images/construction5.jpg";
 import DelhiImg from "../../../../assets/images/delhiproj.jpg";
 import LucknowImg from "../../../../assets/images/lucknowproj.jpeg";
@@ -25,11 +21,13 @@ import AvatarImg4 from "../../../../assets/images/test-1.jpg";
 import BlogImg1 from "../../../../assets/images/construction1.jpg";
 import BlogImg2 from "../../../../assets/images/construction2.jpg";
 import BlogImg3 from "../../../../assets/images/construction3.jpg";
+import LatestServices from "../../../common/LatestServices";
 
 const Home = () => {
   const handleContact = () => {};
 
-  const handleViewProjects = () => {};
+  const handleViewProjects = () => {};  
+
   return (
     <>
       <Layout>
@@ -64,124 +62,7 @@ const Home = () => {
         {/* About Us Section End*/}
      
         {/* Our Services Section Start */}
-        <section className="section-3 bg-light py-3">
-          <div className="container-fluid py-3">
-            <div className="section-header text-center">
-              <span>our services</span>
-              <h2>Our Construction Services</h2>
-              <p>
-                We offer a diverse array of construction services, spanning
-                residential, commercial, and industrial projects.
-              </p>
-            </div>
-            <div className="row pt-4">
-              <div className="col-md-3 col-lg-3">
-                <div className="item">
-                  <div className="service-image">
-                    <img
-                      src={ServiceImg}
-                      alt="Service Image"
-                      className="img-fluid w-100"
-                    />
-                  </div>
-                  <div className="service-body mt-2 pt-2">
-                    <div className="service-title">
-                      <h3>Industrial Construction</h3>
-                    </div>
-                    <div className="service-content">
-                      <p>
-                        We provide reliable and efficient industrial
-                        construction services tailored to meet the needs of
-                        modern infrastructure projects.
-                      </p>
-                      <Link to="#" className="btn btn-primary small">
-                        Read More
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3 col-lg-3">
-                <div className="item">
-                  <div className="service-image">
-                    <img
-                      src={BuildingImg}
-                      alt="Service Image"
-                      className="img-fluid w-100"
-                    />
-                  </div>
-                  <div className="service-body mt-2 pt-2">
-                    <div className="service-title">
-                      <h3>Building Construction</h3>
-                    </div>
-                    <div className="service-content">
-                      <p>
-                        We provide reliable and high-quality building
-                        construction services, delivering projects with
-                        precision, safety, and excellence.
-                      </p>
-                      <Link to="#" className="btn btn-primary small">
-                        Read More
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3 col-lg-3">
-                <div className="item">
-                  <div className="service-image">
-                    <img
-                      src={ResidentialImg}
-                      alt="Service Image"
-                      className="img-fluid w-100"
-                    />
-                  </div>
-                  <div className="service-body mt-2 pt-2">
-                    <div className="service-title">
-                      <h3>Residential Construction</h3>
-                    </div>
-                    <div className="service-content">
-                      <p>
-                        We provide expert residential construction services,
-                        building quality homes with precision, durability, and
-                        modern design.
-                      </p>
-                      <Link to="#" className="btn btn-primary small">
-                        Read More
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3 col-lg-3">
-                <div className="item">
-                  <div className="service-image">
-                    <img
-                      src={CoporateImg}
-                      alt="Service Image"
-                      className="img-fluid w-100"
-                    />
-                  </div>
-                  <div className="service-body mt-2 pt-2">
-                    <div className="service-title">
-                      <h3>Coporate Construction</h3>
-                    </div>
-                    <div className="service-content">
-                      <p>
-                        Corporate Construction Services delivers innovative,
-                        reliable, and high-quality building solutions for modern
-                        businesses.
-                      </p>
-                      <Link to="#" className="btn btn-primary small">
-                        Read More
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <LatestServices/>
         {/* Our Services Section End */}
 
         {/* Why Choose Us Section Start */}
