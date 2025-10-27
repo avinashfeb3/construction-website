@@ -1,9 +1,35 @@
 import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 import AdminLayout from "./AdminLayout";
+import { FaCogs, FaProjectDiagram, FaNewspaper } from "react-icons/fa"; // icons
 
 const Dashboard = () => {
   const chartRef = useRef(null);
+
+  // Example static data (You can fetch this dynamically from API later)
+  const dashboardCards = [
+    {
+      title: "Services",
+      value: 12,
+      description: "Active Services",
+      icon: <FaCogs className="text-primary fs-2 me-2" />,
+      color: "primary",
+    },
+    {
+      title: "Projects",
+      value: 8,
+      description: "Ongoing Projects",
+      icon: <FaProjectDiagram className="text-success fs-2 me-2" />,
+      color: "success",
+    },
+    {
+      title: "Articles",
+      value: 20,
+      description: "Published Articles",
+      icon: <FaNewspaper className="text-warning fs-2 me-2" />,
+      color: "warning",
+    },
+  ];
 
   useEffect(() => {
     if (chartRef.current) {
@@ -36,47 +62,25 @@ const Dashboard = () => {
       <div className="container">
         <h3 className="mb-4 mt-3">Dashboard</h3>
 
-        {/* Cards */}
+        {/* Dynamic Cards for Services, Projects, and Articles */}
         <div className="row mb-4">
-          <div className="col-md-3 col-sm-6 mb-3">
-            <div className="card shadow-sm">
-              <div className="card-body">
-                <h5 className="card-title">Users</h5>
-                <h2>1,245</h2>
-                <p className="text-success">+5% from last month</p>
+          {dashboardCards.map((card, index) => (
+            <div key={index} className="col-md-4 col-sm-6 mb-3">
+              <div className="card shadow-sm border-0 h-100">
+                <div className="card-body d-flex align-items-center">
+                  {card.icon}
+                  <div>
+                    <h5 className="card-title mb-1">{card.title}</h5>
+                    <h2 className={`text-${card.color}`}>{card.value}</h2>
+                    <p className="text-muted">{card.description}</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="col-md-3 col-sm-6 mb-3">
-            <div className="card shadow-sm">
-              <div className="card-body">
-                <h5 className="card-title">Orders</h5>
-                <h2>845</h2>
-                <p className="text-danger">-3% from last month</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 col-sm-6 mb-3">
-            <div className="card shadow-sm">
-              <div className="card-body">
-                <h5 className="card-title">Revenue</h5>
-                <h2>$12,340</h2>
-                <p className="text-success">+8% from last month</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 col-sm-6 mb-3">
-            <div className="card shadow-sm">
-              <div className="card-body">
-                <h5 className="card-title">Feedback</h5>
-                <h2>312</h2>
-                <p className="text-warning">New feedbacks today</p>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
 
-        {/* Charts */}
+        {/* Charts and Map Section */}
         <div className="row mb-4">
           <div className="col-lg-6 mb-3">
             <div className="card shadow-sm">
@@ -87,7 +91,6 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Map (Using iframe for simplicity) */}
           <div className="col-lg-6 mb-3">
             <div className="card shadow-sm">
               <div className="card-body">

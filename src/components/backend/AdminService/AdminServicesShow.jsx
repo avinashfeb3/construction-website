@@ -4,6 +4,7 @@ import { apiUrl, token } from "../../common/http";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { IoIosAdd } from "react-icons/io";
+import { toast } from "react-toastify";
 
 const AdminServicesShow = () => {
   const [services, setServices] = useState([]);
@@ -31,12 +32,48 @@ const AdminServicesShow = () => {
       }
 
       const result = await res.json();
-      console.log("Services response:", result);
+      // console.log("Services response:", result);
       setServices(result?.data);
     } catch (error) {
       console.error("Error fetching services:", error);
     }
   };
+
+  // Service Delete Function API Call Here
+ const deleteService = async (id) => {
+  if (confirm("Are you sure to delete this service?") === true) {
+    try {
+      const authToken = token();
+      const url = `${apiUrl.replace(/\/+$/, "")}/services/${id}`;
+
+      const options = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+        },
+      };
+
+      const res = await fetch(url, options);
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const result = await res.json();
+      if(result.success !== true){
+        const newServices = services.filter((service) => service.id !== id);
+        setServices(newServices);
+        toast.success(result.message);
+      }else{
+        toast.error(result.message);
+      }
+      fetchServices();
+    } catch (error) {}
+  }
+};
+
 
   useEffect(() => {
     fetchServices();
@@ -81,10 +118,10 @@ const AdminServicesShow = () => {
                     }
                     </td>
                     <td className="d-flex flex-wrap gap-2">
-                      <Link to="#" className="btn btn-primary btn-sm me-2" title="Edit">
+                      <Link to={`/admin/services/edit/${service.id}`} className="btn btn-primary btn-sm me-2" title="Edit">
                         <FaRegEdit/>
                       </Link>
-                      <Link to="#" className="btn btn-danger btn-sm" title="Delete">
+                      <Link onClick={() => deleteService(service.id)} className="btn btn-danger btn-sm" title="Delete">
                         <MdDelete/>
                       </Link>
                     </td>

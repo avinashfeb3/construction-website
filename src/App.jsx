@@ -15,6 +15,7 @@ import AdminProjects from "./components/backend/AdminProjects";
 import AdminArticles from "./components/backend/AdminArticles";
 import AdminMembers from "./components/backend/AdminMembers";
 import AdminServicesCreate from "./components/backend/AdminService/AdminServicesCreate";
+import AdminServicesEdit from "./components/backend/AdminService/AdminServicesEdit";
 function App() {
   return (
     <>
@@ -38,6 +39,7 @@ function App() {
           ></Route>
           <Route path="/admin/services" element={<AdminServices/>}></Route>
           <Route path="/admin/services/create" element={<AdminServicesCreate/>}></Route>
+          <Route path="/admin/services/edit/:id" element={<AdminServicesEdit/>}></Route>
           <Route path="/admin/projects" element={<AdminProjects />}></Route>
           <Route path="/admin/articles" element={<AdminArticles />}></Route>
           <Route path="/admin/members" element={<AdminMembers />}></Route>

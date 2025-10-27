@@ -9,10 +9,13 @@ import JoditEditor from "jodit-react";
 const AdminServicesShow = ({ placeholder }) => {
   const [create, setCreate] = useState([]);
   const [content, setContent] = useState("");
+  const [isDisable, setIsDisable] = useState(false);
+  const [imageId, setImageId] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const editor = useRef(null);
   const navigate = useNavigate();
 
-  // Config for Jodit Editor
+  // 🧭 Jodit Editor config
   const config = useMemo(
     () => ({
       readonly: false,
@@ -21,7 +24,7 @@ const AdminServicesShow = ({ placeholder }) => {
     [placeholder]
   );
 
-  // React Hook Form
+  // ⚙️ React Hook Form setup
   const {
     register,
     handleSubmit,
@@ -31,7 +34,7 @@ const AdminServicesShow = ({ placeholder }) => {
     reset,
   } = useForm();
 
-  // Helper function to generate slug
+  // 🔤 Generate slug automatically
   const generateSlug = (text) => {
     return text
       .toLowerCase()
@@ -40,12 +43,18 @@ const AdminServicesShow = ({ placeholder }) => {
       .replace(/\s+/g, "-");
   };
 
-  // Form submit
+  // 🚀 Form Submit Handler
   const onSubmit = async (data) => {
     try {
-      const newData = { ...data, content };
-
+      const newData = { ...data, content, imageId };
       const authToken = token();
+
+      if (!authToken) {
+        toast.error("No token found. Please log in again.", { autoClose: 3000 });
+        navigate("/admin/login");
+        return;
+      }
+
       const url = `${apiUrl.replace(/\/+$/, "")}/services`;
 
       const options = {
@@ -53,31 +62,100 @@ const AdminServicesShow = ({ placeholder }) => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify(newData),
       };
 
       const res = await fetch(url, options);
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-
       const result = await res.json();
 
+      if (!res.ok) {
+        console.error("HTTP Error:", res.status, result);
+        throw new Error(result.message || `HTTP error ${res.status}`);
+      }
+
       if (result.status === true) {
-        toast.success(result.message, { autoClose: 300 });
+        toast.success(result.message || "Service created successfully!", {
+          autoClose: 1500,
+        });
         navigate("/admin/services");
       } else {
-        toast.error(result.message, { autoClose: 300 });
+        toast.error(result.message || "Failed to create service.", {
+          autoClose: 2000,
+        });
       }
 
       setCreate(result?.data || []);
       reset();
-      setContent(""); // reset editor content
+      setContent("");
+      setImagePreview(null);
+      setImageId(null);
     } catch (error) {
-      console.error("Error creating service:", error);
-      toast.error("Failed to create service.", { autoClose: 300 });
+      // console.error("❌ Error creating service:", error);
+      toast.error("Failed to create service.", { autoClose: 3000 });
     }
   };
+
+  // Image Upload Handler
+const handleFileChange = async (e) => {
+  try {
+    const file = e.target.files[0];
+    if (!file) {
+      toast.error("Please select an image file.");
+      return;
+    }
+
+    // ✅ Preview image
+    setImagePreview(URL.createObjectURL(file));
+
+    const authToken = token();
+    if (!authToken) {
+      toast.error("No token found. Please log in again.", { autoClose: 3000 });
+      navigate("/login");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const response = await fetch(`${apiUrl.replace(/\/+$/, "")}/temp-images`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: formData,
+    });
+
+    const result = await response.json();
+
+    // 🧠 Handle validation or API errors
+    if (!response.ok || result.status === false) {
+      console.error("Image upload failed:", result);
+
+      // ✅ Check for Laravel validation errors
+      if (result.errors && result.errors.image && Array.isArray(result.errors.image)) {
+        toast.error(result.errors.image[0]);
+      } else if (result.image && Array.isArray(result.image)) {
+        toast.error(result.image[0]); 
+      } else {
+        toast.error(result?.message || "Failed to upload image.");
+      }
+
+      return;
+    }
+
+    // ✅ Success
+    setImageId(result.data.id);
+    toast.success("Image uploaded successfully!", { autoClose: 1500 });
+
+  } catch (error) {
+    console.error("❌ Error uploading image:", error);
+    toast.error("Image upload failed. Please try again.", { autoClose: 3000 });
+  }
+};
+
 
   return (
     <AdminLayout>
@@ -99,20 +177,22 @@ const AdminServicesShow = ({ placeholder }) => {
             <hr />
           </div>
 
-          {/* Create Service Form Section */}
+          {/* 📝 Form Section */}
           <div className="mx-4 px-4">
             <form onSubmit={handleSubmit(onSubmit)}>
-              {/* Name */}
+              {/* Title */}
               <div className="mb-3">
-                <label htmlFor="name" className="form-label">
+                <label htmlFor="title" className="form-label">
                   Name
                 </label>
                 <input
                   type="text"
-                  {...register("title", { required: "The title field is required" })}
-                  id="name"
+                  id="title"
                   className={`form-control ${errors.title ? "is-invalid" : ""}`}
                   placeholder="Enter Title..."
+                  {...register("title", {
+                    required: "The title field is required",
+                  })}
                   onChange={(e) => {
                     const value = e.target.value;
                     setValue("title", value);
@@ -134,10 +214,11 @@ const AdminServicesShow = ({ placeholder }) => {
                 </label>
                 <input
                   type="text"
-                  {...register("slug", { required: "The slug field is required" })}
                   id="slug"
                   className={`form-control ${errors.slug ? "is-invalid" : ""}`}
-                  placeholder="Enter Slug..."
+                  {...register("slug", {
+                    required: "The slug field is required",
+                  })}
                   readOnly
                 />
                 {errors.slug && (
@@ -154,12 +235,14 @@ const AdminServicesShow = ({ placeholder }) => {
                 </label>
                 <textarea
                   id="short_desc"
+                  rows="4"
+                  className={`form-control ${
+                    errors.short_desc ? "is-invalid" : ""
+                  }`}
+                  placeholder="Enter Short Description..."
                   {...register("short_desc", {
                     required: "The short description field is required",
                   })}
-                  className={`form-control ${errors.short_desc ? "is-invalid" : ""}`}
-                  rows={4}
-                  placeholder="Enter Short Description..."
                 ></textarea>
                 {errors.short_desc && (
                   <p className="text-danger mt-2 invalid-feedback">
@@ -180,8 +263,8 @@ const AdminServicesShow = ({ placeholder }) => {
                   tabIndex={1}
                   onBlur={(newContent) => {
                     setContent(newContent);
-                    setValue("content", newContent); // update react-hook-form
-                    trigger("content"); // trigger validation
+                    setValue("content", newContent);
+                    trigger("content");
                   }}
                   onChange={() => {}}
                 />
@@ -192,6 +275,44 @@ const AdminServicesShow = ({ placeholder }) => {
                 )}
               </div>
 
+              {/* Image Upload */}
+              <div className="mb-3">
+                <label htmlFor="image" className="form-label">
+                  Image
+                </label>
+                <input
+                  type="file"
+                  id="image"
+                  className={`form-control ${errors.image ? "is-invalid" : ""}`}
+                  {...register("image", {
+                    required: "The image field is required",
+                    onChange: handleFileChange, // ✅ Trigger upload correctly
+                  })}
+                />
+                {errors.image && (
+                  <p className="text-danger mt-2 invalid-feedback">
+                    {errors.image.message}
+                  </p>
+                )}
+
+                {/* 🖼️ Preview Image */}
+                {imagePreview && (
+                  <div className="mt-3">
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      style={{
+                        width: "150px",
+                        height: "150px",
+                        objectFit: "cover",
+                        borderRadius: "8px",
+                        border: "1px solid #ccc",
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+
               {/* Status */}
               <div className="mb-3">
                 <label htmlFor="status" className="form-label">
@@ -199,9 +320,11 @@ const AdminServicesShow = ({ placeholder }) => {
                 </label>
                 <select
                   id="status"
-                  {...register("status", { required: "The status field is required" })}
                   className={`form-control ${errors.status ? "is-invalid" : ""}`}
                   defaultValue=""
+                  {...register("status", {
+                    required: "The status field is required",
+                  })}
                 >
                   <option value="">Select Status</option>
                   <option value="1">Active</option>
@@ -214,15 +337,15 @@ const AdminServicesShow = ({ placeholder }) => {
                 )}
               </div>
 
+              {/* Submit Button */}
               <button
-                type="submit"
+                disabled={isDisable}
                 className="btn btn-primary d-flex align-items-center mb-3"
               >
                 <span>Submit</span>
               </button>
             </form>
           </div>
-          {/* Create Service Form Section End */}
         </div>
       </div>
     </AdminLayout>
