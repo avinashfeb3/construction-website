@@ -1,12 +1,13 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import DashboardLogo from "../../assets/images/dashlogo.png";
 import ProfileImg from "../../assets/images/test-1.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./context/Auth";
 
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { logout } = useContext(AuthContext);
+  const navigate = useNavigate();
   const dropdownRef = useRef();
 
   // Close dropdown on clicking outside
@@ -67,12 +68,18 @@ const Header = () => {
                 Settings
               </Link>
               <div className="dropdown-divider"></div>
-              <Link
-                onClick={logout}
+              <button
+                type="button"
+                onClick={() => {
+                  logout();
+                  // Redirect to admin login after logout
+                  navigate("/admin/login", { replace: true });
+                }}
                 className="dropdown-item px-3 py-2 text-danger"
+                style={{ background: "transparent", border: "none", width: "100", textAlign: "left" }}
               >
                 Logout
-              </Link>
+              </button>
             </div>
           )}
         </div>
