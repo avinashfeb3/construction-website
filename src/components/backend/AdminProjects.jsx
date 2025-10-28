@@ -1,11 +1,15 @@
 import React from 'react';
 import AdminLayout from "./AdminLayout";
+// import AdminProjectCreate from './AdminProject/AdminProjectCreate';
+import AdminProjectShow from './AdminProject/AdminProjectShow';
 
 const AdminProjects = () => {
   return (
     <>
         <AdminLayout>
-        <h1>Projects Pages</h1>
+        {/* Show All Project Section Start */}
+        <AdminProjectShow/>
+        {/* Show All Project Section End */}
         </AdminLayout>
     
     </>

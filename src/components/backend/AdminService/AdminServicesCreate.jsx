@@ -118,6 +118,7 @@ const handleFileChange = async (e) => {
 
     const formData = new FormData();
     formData.append("image", file);
+    setIsDisable(true);
 
     const response = await fetch(`${apiUrl.replace(/\/+$/, "")}/temp-images`, {
       method: "POST",
@@ -145,7 +146,10 @@ const handleFileChange = async (e) => {
 
       return;
     }
-
+    
+    // Button Disable to true
+    setIsDisable(false);
+    
     // ✅ Success
     setImageId(result.data.id);
     toast.success("Image uploaded successfully!", { autoClose: 1500 });
@@ -166,7 +170,7 @@ const handleFileChange = async (e) => {
             <div className="d-flex mb-3 mt-2">
               <Link
                 to="/admin/services"
-                className="btn btn-secondary d-flex align-items-center me-2"
+                className="btn btn-primary d-flex align-items-center me-2"
               >
                 <span>Back</span>
               </Link>
@@ -340,9 +344,9 @@ const handleFileChange = async (e) => {
               {/* Submit Button */}
               <button
                 disabled={isDisable}
-                className="btn btn-primary d-flex align-items-center mb-3"
+                className="btn btn-success d-flex align-items-center mb-3"
               >
-                <span>Submit</span>
+                <span>Create</span>
               </button>
             </form>
           </div>

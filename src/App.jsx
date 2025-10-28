@@ -16,6 +16,8 @@ import AdminArticles from "./components/backend/AdminArticles";
 import AdminMembers from "./components/backend/AdminMembers";
 import AdminServicesCreate from "./components/backend/AdminService/AdminServicesCreate";
 import AdminServicesEdit from "./components/backend/AdminService/AdminServicesEdit";
+import AdminProjectCreate from "./components/backend/AdminProject/AdminProjectCreate";
+import AdminProjectEdit from "./components/backend/AdminProject/AdminProjectEdit";
 function App() {
   return (
     <>
@@ -37,12 +39,18 @@ function App() {
               </RequireAuth>
             }
           ></Route>
+          <Route path="/admin/articles" element={<AdminArticles />}></Route>
+          <Route path="/admin/projects" element={<AdminProjects />}></Route>
+          <Route path="/admin/members" element={<AdminMembers />}></Route>
+          
+          {/* Services Routes */}
           <Route path="/admin/services" element={<AdminServices/>}></Route>
           <Route path="/admin/services/create" element={<AdminServicesCreate/>}></Route>
           <Route path="/admin/services/edit/:id" element={<AdminServicesEdit/>}></Route>
-          <Route path="/admin/projects" element={<AdminProjects />}></Route>
-          <Route path="/admin/articles" element={<AdminArticles />}></Route>
-          <Route path="/admin/members" element={<AdminMembers />}></Route>
+
+          {/* Project Routes */}
+            <Route path="/admin/projects/create" element={<AdminProjectCreate/>}></Route>
+             <Route path="/admin/projects/edit/:id" element={<AdminProjectEdit/>}></Route>
 
         </Routes>
       </Router>

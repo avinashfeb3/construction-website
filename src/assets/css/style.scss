@@ -249,6 +249,15 @@ footer {
   .footer-wrapper {
     text-align: center;
   }
+  
+// JoEditor style
+.jodit-status-bar{
+    height: 44px;
+}
+
+.jodit-wysiwyg{
+   min-height: 200px;
+}
 }
 
 // Our Services Section Styles

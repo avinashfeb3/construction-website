@@ -186,6 +186,7 @@ const AdminServicesEdit = ({ placeholder }) => {
     const authToken = token();
     const formData = new FormData();
     formData.append("image", file);
+    setIsDisable(true)
 
     try {
       const response = await fetch(`${apiUrl.replace(/\/+$/, "")}/temp-images`, {
@@ -204,6 +205,8 @@ const AdminServicesEdit = ({ placeholder }) => {
         return;
       }
 
+    // Button Disable to true
+      setIsDisable(false)
       setImageId(result.data.id);
       toast.success("Image uploaded successfully!", { autoClose: 1500 });
     } catch (err) {
