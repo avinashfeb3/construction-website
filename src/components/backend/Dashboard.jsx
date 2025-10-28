@@ -1,17 +1,59 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import AdminLayout from "./AdminLayout";
-import { FaCogs, FaProjectDiagram, FaNewspaper } from "react-icons/fa"; // icons
+import { FaCogs, FaProjectDiagram, FaNewspaper } from "react-icons/fa";
+import { token, apiUrl } from "../common/http"; // fixed import path
 
 const Dashboard = () => {
   const chartRef = useRef(null);
+  const [services, setServices] = useState([]);
+  const [totalServices, setTotalServices] = useState(0);
 
-  // Example static data (You can fetch this dynamically from API later)
+  // ✅ Fetch Services API Call
+  const fetchServices = async () => {
+    try {
+      const authToken = token();
+      const url = `${apiUrl.replace(/\/+$/, "")}/services`;
+
+      const options = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+        },
+      };
+
+      console.debug("Fetching services", { url, hasToken: !!authToken });
+
+      const res = await fetch(url, options);
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const result = await res.json();
+      // console.log("Services response:", result);
+
+      // ✅ Set both data and total count
+      setServices(result?.data || []);
+      setTotalServices(result?.total_services || 0);
+    } catch (error) {
+      console.error("Error fetching services:", error);
+    }
+  };
+
+  // Fetch services on component mount
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  // ✅ Dynamic dashboard cards
   const dashboardCards = [
     {
       title: "Services",
-      value: 12,
-      description: "Active Services",
+      value: totalServices, // dynamically show from API
+      description: "Total Services",
       icon: <FaCogs className="text-primary fs-2 me-2" />,
       color: "primary",
     },
@@ -31,6 +73,7 @@ const Dashboard = () => {
     },
   ];
 
+  // Chart example
   useEffect(() => {
     if (chartRef.current) {
       new Chart(chartRef.current, {
@@ -62,7 +105,7 @@ const Dashboard = () => {
       <div className="container">
         <h3 className="mb-4 mt-3">Dashboard</h3>
 
-        {/* Dynamic Cards for Services, Projects, and Articles */}
+        {/* ✅ Dynamic Cards for Services, Projects, and Articles */}
         <div className="row mb-4">
           {dashboardCards.map((card, index) => (
             <div key={index} className="col-md-4 col-sm-6 mb-3">
