@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { apiFileUrl, apiUrl} from "../common/http";
 
-const LatestProjects = ({ limit= 3}) => {
+const LatestProjects = ({ limit= 4}) => {
       const [projects, setProjects] = useState([]);
 
       // Call Latest Projects API Section Start
