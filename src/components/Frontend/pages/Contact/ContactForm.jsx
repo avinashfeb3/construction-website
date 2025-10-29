@@ -102,7 +102,7 @@ const ContactForm = () => {
                           Email
                         </label>
                         <input
-                          type="email"
+                          type="text"
                           className="form-control form-control-lg"
                           placeholder="Enter Email.."
                         />

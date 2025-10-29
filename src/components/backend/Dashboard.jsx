@@ -2,12 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import AdminLayout from "./AdminLayout";
 import { FaCogs, FaProjectDiagram, FaNewspaper } from "react-icons/fa";
-import { token, apiUrl } from "../common/http"; // fixed import path
+import { token, apiUrl } from "../common/http";
 
 const Dashboard = () => {
   const chartRef = useRef(null);
   const [services, setServices] = useState([]);
   const [totalServices, setTotalServices] = useState(0);
+    const [projects, setProjects] = useState([]);
+    const [totalProjects, setTotalProjects] = useState(0);
 
   // ✅ Fetch Services API Call
   const fetchServices = async () => {
@@ -43,24 +45,59 @@ const Dashboard = () => {
     }
   };
 
+  // Show total Project count
+    const fetchProjects = async () => {
+        try {
+            const authToken = token();
+            const url = `${apiUrl.replace(/\/+$/, "")}/projects`;
+
+            const options = {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+                },
+            };
+
+            console.debug("Fetching projects", { url, hasToken: !!authToken });
+
+            const res = await fetch(url, options);
+
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+
+            const result = await res.json();
+            // console.log("Services response:", result);
+
+            // ✅ Set both data and total count
+            setProjects(result?.data || []);
+            setTotalProjects(result?.total_projects || 0);
+        } catch (error) {
+            console.error("Error fetching projects:", error);
+        }
+    };
+
   // Fetch services on component mount
   useEffect(() => {
     fetchServices();
+    fetchProjects();
   }, []);
 
   // ✅ Dynamic dashboard cards
   const dashboardCards = [
     {
       title: "Services",
-      value: totalServices, // dynamically show from API
+      value: totalServices,
       description: "Total Services",
       icon: <FaCogs className="text-primary fs-2 me-2" />,
       color: "primary",
     },
     {
       title: "Projects",
-      value: 8,
-      description: "Ongoing Projects",
+      value: totalProjects,
+      description: "Total Projects",
       icon: <FaProjectDiagram className="text-success fs-2 me-2" />,
       color: "success",
     },
