@@ -7,7 +7,7 @@ const LatestProjects = ({ limit= 4}) => {
 
       // Call Latest Projects API Section Start
   const fetchLatestProjects = async () => {
-      const url = `${apiUrl.replace(/\/+$/, "")}/get-latest-projects?limit=${limit}`;
+      const url = `${apiUrl.replace(/\/+$/, "")}/latest-projects?limit=${limit}`;
   
         const options = {
           method: "GET",
