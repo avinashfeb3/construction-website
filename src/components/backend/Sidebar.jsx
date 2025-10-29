@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
-import { MdMiscellaneousServices, MdOutlineArticle, MdOutlineDashboard } from "react-icons/md";
+import { MdMiscellaneousServices, MdOutlineArticle, MdOutlineDashboard, MdOutlineReviews} from "react-icons/md";
 import { Link } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import { GrProjects } from "react-icons/gr";
@@ -9,9 +9,11 @@ import { FaRegUser } from "react-icons/fa";
 const Sidebar = () => {
   const menus = [
     { name: "Dashboard", link: "/admin/dashboard", icon: MdOutlineDashboard },
+    // { name: "About", link: "/admin/about", icon: MdOutlineRoundaboutLeft },
     { name: "Services", link: "/admin/services", icon: MdMiscellaneousServices },
     { name: "Projects", link: "/admin/projects", icon: GrProjects },
     { name: "Articles", link: "/admin/articles", icon: MdOutlineArticle , margin: true },
+    { name: "Testimonials", link: "/admin/testmonials", icon: MdOutlineReviews },
     { name: "Members", link: "/admin/members", icon: FaRegUser },
   ];
 

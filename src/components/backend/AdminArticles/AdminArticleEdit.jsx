@@ -6,7 +6,7 @@ import { apiUrl, token, getFileUrl } from "../../common/http";
 import { toast } from "react-toastify";
 import JoditEditor from "jodit-react";
 
-const AdminProjectEdit = ({ placeholder }) => {
+const AdminArticlesEdit = ({ placeholder }) => {
   const [content, setContent] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const [imageId, setImageId] = useState(null);
@@ -34,9 +34,9 @@ const AdminProjectEdit = ({ placeholder }) => {
     [placeholder]
   );
 
-  // ✅ Fetch Service Data
+  // ✅ Fetch Article Data
   useEffect(() => {
-    const fetchProjects = async () => {
+    const fetchArticles = async () => {
       const authToken = token();
 
       if (!authToken) {
@@ -47,7 +47,7 @@ const AdminProjectEdit = ({ placeholder }) => {
         return;
       }
 
-      const url = `${apiUrl.replace(/\/+$/, "")}/projects/${params.id}`;
+      const url = `${apiUrl.replace(/\/+$/, "")}/articles/${params.id}`;
 
       try {
         const res = await fetch(url, {
@@ -129,9 +129,9 @@ const AdminProjectEdit = ({ placeholder }) => {
                 if (imageUrl.includes("uploads/"))
                   imageUrl = getFileUrl(imageUrl.replace(/^\/+/, ""));
                 else
-                  imageUrl = getFileUrl(`uploads/projects/small/${imageUrl}`);
+                  imageUrl = getFileUrl(`uploads/articles/small/${imageUrl}`);
               }
-              console.debug("Project image resolved to (fallback):", imageUrl);
+              console.debug("Articles image resolved to (fallback):", imageUrl);
               setImagePreview(imageUrl);
             }
           } catch (e) {
@@ -140,19 +140,19 @@ const AdminProjectEdit = ({ placeholder }) => {
 
           if (result.data.image_id) setImageId(result.data.image_id);
         } else {
-          toast.error(result.message || "Failed to fetch projects details.", {
+          toast.error(result.message || "Failed to fetch articles details.", {
             autoClose: 2000,
           });
         }
       } catch (error) {
-        console.error("Error fetching project:", error);
-        toast.error("An error occurred while fetching project details.", {
+        console.error("Error fetching article:", error);
+        toast.error("An error occurred while fetching articles details.", {
           autoClose: 2000,
         });
       }
     };
 
-    fetchProjects();
+    fetchArticles();
   }, [params.id, navigate, reset]);
 
   // 🧩 Slug Generator
@@ -177,7 +177,7 @@ const AdminProjectEdit = ({ placeholder }) => {
       }
 
       const updatedData = { ...data, content, imageId };
-      const url = `${apiUrl.replace(/\/+$/, "")}/projects/${params.id}`;
+      const url = `${apiUrl.replace(/\/+$/, "")}/articles/${params.id}`;
 
       const res = await fetch(url, {
         method: "PUT",
@@ -195,18 +195,18 @@ const AdminProjectEdit = ({ placeholder }) => {
         throw new Error(result.message || `HTTP error ${res.status}`);
 
       if (result.status === true) {
-        toast.success(result.message || "Project updated successfully!", {
+        toast.success(result.message || "Article updated successfully!", {
           autoClose: 1500,
         });
-        navigate("/admin/projects");
+        navigate("/admin/articles");
       } else {
-        toast.error(result.message || "Failed to update project.", {
+        toast.error(result.message || "Failed to update article.", {
           autoClose: 2000,
         });
       }
     } catch (error) {
-      console.error("Error updating project:", error);
-      toast.error("Failed to update project.", { autoClose: 3000 });
+      console.error("Error updating article:", error);
+      toast.error("Failed to update article.", { autoClose: 3000 });
     }
   };
 
@@ -261,8 +261,8 @@ const AdminProjectEdit = ({ placeholder }) => {
       <div className="mx-4 px-4 my-1 py-1">
         <div className="card shadow-sm border-0">
           <div className="card-body d-flex justify-content-between align-items-center mx-3 px-3 mt-2 pt-2 mb-1 pb-1">
-            <h3>Service</h3>
-            <Link to="/admin/projects" className="btn btn-secondary">
+            <h3>Edit Article</h3>
+            <Link to="/admin/articles" className="btn btn-secondary">
               Back
             </Link>
           </div>
@@ -299,131 +299,13 @@ const AdminProjectEdit = ({ placeholder }) => {
                 />
               </div>
 
-              <div className="row">
-                <div className="col-md-6">
-                  {/* Location */}
-                  <div className="mb-3">
-                    <label htmlFor="location" className="form-label">
-                      Location
-                    </label>
-                    <select
-                      id="location"
-                      className={`form-control ${
-                        errors.location ? "is-invalid" : ""
-                      }`}
-                      defaultValue=""
-                      {...register("location")}
-                    >
-                      <option value="0">Select Location</option>
-                      <option value="Delhi">Delhi</option>
-                      <option value="Mumbai">Mumbai</option>
-                      <option value="Bangalore">Bangalore</option>
-                      <option value="Kolkata">Kolkata</option>
-                      <option value="Lucknow">Lucknow</option>
-                      <option value="Goa">Goa</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  {/* Construction Type */}
-                  <div className="mb-3">
-                    <label htmlFor="construction_type" className="form-label">
-                      Construction Type
-                    </label>
-                    <select
-                      id="construction_type"
-                      className={`form-control ${
-                        errors.construction_type ? "is-invalid" : ""
-                      }`}
-                      defaultValue=""
-                      {...register("construction_type", {
-                        required: "The construction Type field is required",
-                      })}
-                    >
-                      <option value="">Select Construction Type</option>
-                      <option value="Education">Education</option>
-                      <option value="Industrial">Industrial</option>
-                      <option value="Commercial">Commercial</option>
-                      <option value="Corporate">Corporate</option>
-                    </select>
-                    {errors.construction_type && (
-                      <p className="text-danger mt-2 invalid-feedback">
-                        {errors.construction_type.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="row mb-3">
-                <div className="col-md-6">
-                    {/* Sector */}
-                  <div className="mb-3">
-                    <label htmlFor="sector" className="form-label">
-                      Sector
-                    </label>
-                    <select
-                      id="sector"
-                      className={`form-control ${
-                        errors.sector ? "is-invalid" : ""
-                      }`}
-                      defaultValue=""
-                      {...register("sector", {
-                        required: "The sector field is required",
-                      })}
-                    >
-                      <option value="0">Select Sector</option>
-                      <option value="Education">Education</option>
-                      <option value="Healthcare">Healthcare</option>
-                      <option value="Infrastructure">Infrastructure</option>
-                      <option value="Residential">Residential</option>
-                    </select>
-                    {errors.sector && (
-                      <p className="text-danger mt-2 invalid-feedback">
-                        {errors.sector.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  {/* Status */}
-                  <div className="mb-3">
-                    <label htmlFor="status" className="form-label">
-                      Status
-                    </label>
-                    <select
-                      id="status"
-                      className={`form-control ${
-                        errors.status ? "is-invalid" : ""
-                      }`}
-                      defaultValue=""
-                      {...register("status", {
-                        required: "The status field is required",
-                      })}
-                    >
-                      <option value="">Select Status</option>
-                      <option value="1">Active</option>
-                      <option value="0">Inactive</option>
-                    </select>
-                    {errors.status && (
-                      <p className="text-danger mt-2 invalid-feedback">
-                        {errors.status.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-              {/* Short Description */}
+              {/* Authore */}
               <div className="mb-3">
-                <label className="form-label">Short Description</label>
-                <textarea
-                  rows="4"
-                  className={`form-control ${
-                    errors.short_desc ? "is-invalid" : ""
-                  }`}
-                  {...register("short_desc", {
-                    required: "Short description is required",
-                  })}
+                <label className="form-label">Author</label>
+               <input
+                  type="text"
+                  className={`form-control ${errors.author ? "is-invalid" : ""}`}
+                  {...register("author", { required: "Author is required" })}
                 />
               </div>
 
@@ -485,6 +367,31 @@ const AdminProjectEdit = ({ placeholder }) => {
                   )
                 )}
               </div>
+                   {/* Status */}
+                  <div className="mb-3">
+                    <label htmlFor="status" className="form-label">
+                      Status
+                    </label>
+                    <select
+                      id="status"
+                      className={`form-control ${
+                        errors.status ? "is-invalid" : ""
+                      }`}
+                      defaultValue=""
+                      {...register("status", {
+                        required: "The status field is required",
+                      })}
+                    >
+                      <option value="">Select Status</option>
+                      <option value="1">Active</option>
+                      <option value="0">Inactive</option>
+                    </select>
+                    {errors.status && (
+                      <p className="text-danger mt-2 invalid-feedback">
+                        {errors.status.message}
+                      </p>
+                    )}
+                  </div>
 
               {/* Update Button */}
               <button
@@ -502,4 +409,4 @@ const AdminProjectEdit = ({ placeholder }) => {
   );
 };
 
-export default AdminProjectEdit;
+export default AdminArticlesEdit;

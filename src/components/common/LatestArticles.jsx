@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { apiUrl, apiFileUrl } from "../../../common/http";
+import { apiFileUrl, apiUrl } from "./http";
 
-const BlogGrid = () => {
+const LatestArticles = ({ limit = 3 }) => {
   const [articles, setArticles] = useState([]);
 
   // Call Latest Projects API Section Start
@@ -10,7 +10,7 @@ const BlogGrid = () => {
     const url = `${apiUrl.replace(
       /\/+$/,
       ""
-    )}/get-articles`;
+    )}/get-latest-articles?limit=${limit}`;
 
     const options = {
       method: "GET",
@@ -79,4 +79,4 @@ const BlogGrid = () => {
   );
 };
 
-export default BlogGrid;
+export default LatestArticles;

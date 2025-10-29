@@ -13,11 +13,14 @@ import RequireAuth from "./components/common/RequireAuth";
 import AdminServices from "./components/backend/AdminServices";
 import AdminProjects from "./components/backend/AdminProjects";
 import AdminArticles from "./components/backend/AdminArticles";
+import AdminTestmonials from "./components/backend/AdminTestmonials";
 import AdminMembers from "./components/backend/AdminMembers";
 import AdminServicesCreate from "./components/backend/AdminService/AdminServicesCreate";
 import AdminServicesEdit from "./components/backend/AdminService/AdminServicesEdit";
 import AdminProjectCreate from "./components/backend/AdminProject/AdminProjectCreate";
 import AdminProjectEdit from "./components/backend/AdminProject/AdminProjectEdit";
+import AdminArticlesCreate from "./components/backend/AdminArticles/AdminArticlesCreate";
+import AdminArticleEdit from "./components/backend/AdminArticles/AdminArticleEdit";
 function App() {
   return (
     <>
@@ -41,6 +44,7 @@ function App() {
           ></Route>
           <Route path="/admin/articles" element={<AdminArticles />}></Route>
           <Route path="/admin/projects" element={<AdminProjects />}></Route>
+          <Route path="/admin/testmonials" element={<AdminTestmonials />}></Route>
           <Route path="/admin/members" element={<AdminMembers />}></Route>
           
           {/* Services Routes */}
@@ -51,6 +55,10 @@ function App() {
           {/* Project Routes */}
             <Route path="/admin/projects/create" element={<AdminProjectCreate/>}></Route>
              <Route path="/admin/projects/edit/:id" element={<AdminProjectEdit/>}></Route>
+
+             {/* Article Routes */}
+             <Route path="/admin/articles/create" element={<AdminArticlesCreate/>}></Route>
+             <Route path="/admin/articles/edit/:id" element={<AdminArticleEdit/>}></Route>
 
         </Routes>
       </Router>
