@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import AdminLayout from "./AdminLayout";
-import { FaCogs, FaProjectDiagram, FaNewspaper } from "react-icons/fa";
+import { FaCogs, FaProjectDiagram, FaNewspaper, FaRegUser } from "react-icons/fa";
 import { token, apiUrl } from "../common/http";
+import { MdOutlineReviews } from "react-icons/md";
 
 const Dashboard = () => {
   const chartRef = useRef(null);
@@ -12,6 +13,8 @@ const Dashboard = () => {
   const [totalProjects, setTotalProjects] = useState(0);
   const [articles, setArticles] = useState([]);
   const [totalArticles, setTotalArticles] = useState(0);
+  const [testimonials, setTestimonials] = useState([]);
+  const [totalTestimonials, setTotalTestimonials] = useState(0);
 
   // ✅ Fetch Services API Call
   const fetchServices = async () => {
@@ -115,11 +118,46 @@ const Dashboard = () => {
     }
   };
 
+    // Fetch testimonials on component mount
+  const fetchTestimonials = async () => {
+    try {
+      const authToken = token();
+      const url = `${apiUrl.replace(/\/+$/, "")}/testimonials`;
+
+      const options = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+        },
+      };
+
+      console.debug("Fetching articles", { url, hasToken: !!authToken });
+
+      const res = await fetch(url, options);
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const result = await res.json();
+      // console.log("Services response:", result);
+
+      // ✅ Set both data and total count
+      setTestimonials(result?.data || []);
+      setTotalTestimonials(result?.total_testimonials || 0);
+    } catch (error) {
+      console.error("Error fetching testimonials:", error);
+    }
+  };
+
   // Fetch services on component mount
   useEffect(() => {
     fetchServices();
     fetchProjects();
     fetchArticles();
+    fetchTestimonials();
   }, []);
 
   // ✅ Dynamic dashboard cards
@@ -143,6 +181,20 @@ const Dashboard = () => {
       value: totalArticles,
       description: "Total Articles",
       icon: <FaNewspaper className="text-warning fs-2 me-2" />,
+      color: "warning",
+    },
+    {
+      title: "Testimonials",
+      value: totalTestimonials,
+      description: "Total Testimonials",
+      icon: <MdOutlineReviews className="text-warning fs-2 me-2" />,
+      color: "warning",
+    },
+    {
+      title: "Team Members",
+      value: totalArticles,
+      description: "Total Team Members",
+      icon: <FaRegUser className="text-warning fs-2 me-2" />,
       color: "warning",
     },
   ];
@@ -195,35 +247,6 @@ const Dashboard = () => {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Charts and Map Section */}
-        <div className="row mb-4">
-          <div className="col-lg-6 mb-3">
-            <div className="card shadow-sm">
-              <div className="card-body">
-                <h5 className="card-title">Monthly Sales</h5>
-                <canvas ref={chartRef}></canvas>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-6 mb-3">
-            <div className="card shadow-sm">
-              <div className="card-body">
-                <h5 className="card-title">User Locations</h5>
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.086902906007!2d-122.41941518468192!3d37.77492977975932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085808c5e4d3a05%3A0x7a92f81d3c8b4f6b!2sSan+Francisco%2C+CA!5e0!3m2!1sen!2sus!4v1690000000000!5m2!1sen!2sus"
-                  width="100%"
-                  height="300"
-                  style={{ border: 0 }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  title="User Locations"
-                ></iframe>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </AdminLayout>

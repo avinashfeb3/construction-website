@@ -13,7 +13,6 @@ import RequireAuth from "./components/common/RequireAuth";
 import AdminServices from "./components/backend/AdminServices";
 import AdminProjects from "./components/backend/AdminProjects";
 import AdminArticles from "./components/backend/AdminArticles";
-import AdminTestmonials from "./components/backend/AdminTestmonials";
 import AdminMembers from "./components/backend/AdminMembers";
 import AdminServicesCreate from "./components/backend/AdminService/AdminServicesCreate";
 import AdminServicesEdit from "./components/backend/AdminService/AdminServicesEdit";
@@ -21,18 +20,22 @@ import AdminProjectCreate from "./components/backend/AdminProject/AdminProjectCr
 import AdminProjectEdit from "./components/backend/AdminProject/AdminProjectEdit";
 import AdminArticlesCreate from "./components/backend/AdminArticles/AdminArticlesCreate";
 import AdminArticleEdit from "./components/backend/AdminArticles/AdminArticleEdit";
+import AdminTestimonials from "./components/backend/AdminTestimonials";
+import AdminTestimonialsCreate from "./components/backend/AdminTestimonials/AdminTestimonialsCreate";
+import AdminTestimonialsEdit from "./components/backend/AdminTestimonials/AdminTestimonialsEdit";
+
 function App() {
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/about" element={<About />}></Route>
-          <Route path="/services" element={<Services />}></Route>
-          <Route path="/projects" element={<Projects />}></Route>
-          <Route path="/blogs" element={<Blogs />}></Route>
-          <Route path="/contact" element={<Contact />}></Route>
-          <Route path="/admin/login" element={<Login />}></Route>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/admin/login" element={<Login />} />
 
           <Route
             path="/admin/dashboard"
@@ -41,25 +44,29 @@ function App() {
                 <Dashboard />
               </RequireAuth>
             }
-          ></Route>
-          <Route path="/admin/articles" element={<AdminArticles />}></Route>
-          <Route path="/admin/projects" element={<AdminProjects />}></Route>
-          <Route path="/admin/testmonials" element={<AdminTestmonials />}></Route>
-          <Route path="/admin/members" element={<AdminMembers />}></Route>
-          
+          />
+
+          <Route path="/admin/articles" element={<AdminArticles />} />
+          <Route path="/admin/projects" element={<AdminProjects />} />
+          <Route path="/admin/testimonials" element={<AdminTestimonials />} />
+          <Route path="/admin/members" element={<AdminMembers />} />
+
           {/* Services Routes */}
-          <Route path="/admin/services" element={<AdminServices/>}></Route>
-          <Route path="/admin/services/create" element={<AdminServicesCreate/>}></Route>
-          <Route path="/admin/services/edit/:id" element={<AdminServicesEdit/>}></Route>
+          <Route path="/admin/services" element={<AdminServices />} />
+          <Route path="/admin/services/create" element={<AdminServicesCreate />} />
+          <Route path="/admin/services/edit/:id" element={<AdminServicesEdit />} />
 
           {/* Project Routes */}
-            <Route path="/admin/projects/create" element={<AdminProjectCreate/>}></Route>
-             <Route path="/admin/projects/edit/:id" element={<AdminProjectEdit/>}></Route>
+          <Route path="/admin/projects/create" element={<AdminProjectCreate />} />
+          <Route path="/admin/projects/edit/:id" element={<AdminProjectEdit />} />
 
-             {/* Article Routes */}
-             <Route path="/admin/articles/create" element={<AdminArticlesCreate/>}></Route>
-             <Route path="/admin/articles/edit/:id" element={<AdminArticleEdit/>}></Route>
+          {/* Article Routes */}
+          <Route path="/admin/articles/create" element={<AdminArticlesCreate />} />
+          <Route path="/admin/articles/edit/:id" element={<AdminArticleEdit />} />
 
+          {/* Testimonials Routes */}
+          <Route path="/admin/testimonials/create" element={<AdminTestimonialsCreate />} />
+          <Route path="/admin/testimonials/edit/:id" element={<AdminTestimonialsEdit />} />
         </Routes>
       </Router>
       <ToastContainer />

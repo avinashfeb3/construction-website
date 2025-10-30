@@ -13,7 +13,7 @@ const Sidebar = () => {
     { name: "Services", link: "/admin/services", icon: MdMiscellaneousServices },
     { name: "Projects", link: "/admin/projects", icon: GrProjects },
     { name: "Articles", link: "/admin/articles", icon: MdOutlineArticle , margin: true },
-    { name: "Testimonials", link: "/admin/testmonials", icon: MdOutlineReviews },
+    { name: "Testimonials", link: "/admin/testimonials", icon: MdOutlineReviews },
     { name: "Members", link: "/admin/members", icon: FaRegUser },
   ];
 
