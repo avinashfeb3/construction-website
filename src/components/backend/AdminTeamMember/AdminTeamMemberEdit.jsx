@@ -2,16 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import AdminLayout from "../AdminLayout";
 import { useForm } from "react-hook-form";
-import ReactStars from "react-rating-stars-component";
 import { apiUrl, token, getFileUrl } from "../../common/http";
 import { toast } from "react-toastify";
 
-const AdminTestimonialsEdit = () => {
+const AdminTeamMemberEdit = () => {
   const [content, setContent] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const [imageId, setImageId] = useState(null);
   const [isDisable, setIsDisable] = useState(false);
-  const [service, setService] = useState({});
+  const [teamMember, setTeamMember] = useState({});
   const params = useParams();
   const navigate = useNavigate();
   const editor = useRef(null);
@@ -26,9 +25,9 @@ const AdminTestimonialsEdit = () => {
     formState: { errors },
   } = useForm();
 
-  // ✅ Fetch testimonial data
+  // ✅ Fetch team member data
   useEffect(() => {
-    const fetchTestimonials = async () => {
+    const fetchTeamMember = async () => {
       const authToken = token();
       if (!authToken) {
         toast.error("No token found. Please log in again.", { autoClose: 3000 });
@@ -37,7 +36,7 @@ const AdminTestimonialsEdit = () => {
       }
 
       try {
-        const url = `${apiUrl.replace(/\/+$/, "")}/testimonials/${params.id}`;
+        const url = `${apiUrl.replace(/\/+$/, "")}/members/${params.id}`;
         const res = await fetch(url, {
           headers: {
             "Content-Type": "application/json",
@@ -46,10 +45,10 @@ const AdminTestimonialsEdit = () => {
         });
 
         const result = await res.json();
-        console.log("Fetched testimonial:", result);
+        console.log("Fetched team member:", result);
 
         if (!res.ok || !result.status || !result.data) {
-          toast.error(result.message || "Testimonial not found.", { autoClose: 2000 });
+          toast.error(result.message || "Team Member not found.", { autoClose: 2000 });
           return;
         }
 
@@ -57,26 +56,25 @@ const AdminTestimonialsEdit = () => {
 
         // ✅ Map API data to form fields
         const mappedData = {
-          testimonial: data.testimonial || "",
-          citation: data.citation || "",
-          designation: data.designation || "",
+          name: data.name || "",
+          job_title: data.job_title || "",
+          linkedin_url: data.linkedin_url || "",
+          facebook_url: data.facebook_url || "",
           status: data.status?.toString() || "1",
-          // keep rating as string so select shows correct value after reset
-          rating: data.rating != null ? String(data.rating) : "0",
         };
 
         reset(mappedData);
         // ensure watch/setValue for the star control is in sync (numeric value)
         setValue("rating", data.rating != null ? Number(data.rating) : 0);
-        setService(data);
-        setContent(data.testimonial || "");
+        setTeamMember(data);
+        setContent(data.members || "");
 
         // ✅ Handle image preview
         let imgUrl = "";
         if (data.image) {
           imgUrl = data.image.startsWith("http")
             ? data.image
-            : getFileUrl(`uploads/testimonials/${data.image}`);
+            : getFileUrl(`uploads/member/${data.image}`);
         } else if (data.image_url) {
           imgUrl = data.image_url;
         }
@@ -84,12 +82,12 @@ const AdminTestimonialsEdit = () => {
         if (imgUrl) setImagePreview(imgUrl);
         if (data.image_id) setImageId(data.image_id);
       } catch (error) {
-        console.error("Error fetching testimonials:", error);
-        toast.error("Failed to fetch testimonial details.", { autoClose: 2000 });
+        console.error("Error fetching team member:", error);
+        toast.error("Failed to fetch team member details.", { autoClose: 2000 });
       }
     };
 
-    fetchTestimonials();
+    fetchTeamMember();
   }, [params.id, navigate, reset]);
 
   // 🚀 Handle form submit (update)
@@ -109,7 +107,7 @@ const AdminTestimonialsEdit = () => {
         // ensure rating is numeric in the payload
         rating: Number(watch("rating") || data.rating || 0),
       };
-      const url = `${apiUrl.replace(/\/+$/, "")}/testimonials/${params.id}`;
+      const url = `${apiUrl.replace(/\/+$/, "")}/members/${params.id}`;
 
       const res = await fetch(url, {
         method: "PUT",
@@ -124,15 +122,15 @@ const AdminTestimonialsEdit = () => {
       const result = await res.json();
 
       if (!res.ok || !result.status) {
-        toast.error(result.message || "Failed to update testimonial.", { autoClose: 2000 });
+        toast.error(result.message || "Failed to update team member.", { autoClose: 2000 });
         return;
       }
 
-      toast.success(result.message || "Testimonial updated successfully!", { autoClose: 1500 });
-      navigate("/admin/testimonials");
+      toast.success(result.message || "Team Member updated successfully!", { autoClose: 1500 });
+      navigate("/admin/members");
     } catch (error) {
-      console.error("Error updating testimonial:", error);
-      toast.error("Failed to update testimonial.", { autoClose: 3000 });
+      console.error("Error updating team member:", error);
+      toast.error("Failed to update team member.", { autoClose: 3000 });
     }
   };
 
@@ -181,8 +179,8 @@ const AdminTestimonialsEdit = () => {
       <div className="mx-4 px-4 my-1 py-1">
         <div className="card shadow-sm border-0">
           <div className="card-body d-flex justify-content-between align-items-center mx-3 px-3 mt-2 pt-2 mb-1 pb-1">
-            <h3>Edit Testimonial</h3>
-            <Link to="/admin/testimonials" className="btn btn-secondary">
+            <h3>Edit Team Member</h3>
+            <Link to="/admin/members" className="btn btn-secondary">
               Back
             </Link>
           </div>
@@ -190,27 +188,17 @@ const AdminTestimonialsEdit = () => {
 
           <div className="mx-4 px-4">
             <form onSubmit={handleSubmit(onSubmit)}>
-              {/* Testimonial */}
+              {/* Name */}
               <div className="mb-3">
-                <label className="form-label">Testimonial</label>
-                <textarea
-                  rows="4"
-                  className={`form-control ${errors.testimonial ? "is-invalid" : ""}`}
-                  {...register("testimonial", { required: "Testimonial is required" })}
-                />
-              </div>
-
-              {/* Citation */}
-              <div className="mb-3">
-                <label className="form-label">Citation</label>
+                <label className="form-label">Name</label>
                 <input
                   type="text"
-                  className={`form-control ${errors.citation ? "is-invalid" : ""}`}
-                  {...register("citation", { required: "Citation is required" })}
+                  className={`form-control ${errors.name ? "is-invalid" : ""}`}
+                  {...register("name", { required: "Name is required" })}
                   onChange={(e) => {
                     const val = e.target.value;
-                    setValue("citation", val);
-                    trigger("citation");
+                    setValue("name", val);
+                    trigger("name");
                   }}
                 />
               </div>
@@ -220,46 +208,43 @@ const AdminTestimonialsEdit = () => {
                 <label className="form-label">Designation</label>
                 <input
                   type="text"
-                  className={`form-control ${errors.designation ? "is-invalid" : ""}`}
-                  {...register("designation", { required: "Designation is required" })}
+                  className={`form-control ${errors["job_title"] ? "is-invalid" : ""}`}
+                  {...register("job_title", { required: "Designation is required" })}
                   onChange={(e) => {
                     const val = e.target.value;
-                    setValue("designation", val);
-                    trigger("designation");
+                    setValue("job_title", val);
+                    trigger("job_title");
                   }}
                 />
               </div>
 
-              {/* ⭐ Rating */}
+              {/* Linkedin URL */}
               <div className="mb-3">
-                <label className="form-label">Rating</label>
-                  <ReactStars
-                    className={`form-control ${errors.rating ? "is-invalid" : ""}`}
-                    count={5}
-                    value={Number(watch("rating") || 0)}
-                    onChange={(newRating) => setValue("rating", newRating)}
-                    size={30}
-                    activeColor="#ffd700"
-                  />
-
-                  <select
-                    className={`form-control ${errors.rating ? "is-invalid" : ""}`}
-                    value={watch("rating") || ""}
-                    {...register("rating", {
-                      required: "The rating field is required",
-                      onChange: (e) => setValue("rating", Number(e.target.value)),
-                    })}
-                  >
-                    <option value="">Select</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
-                {errors.rating && (
-                  <p className="text-danger mt-2 invalid-feedback">{errors.rating.message}</p>
-                )}
+                <label className="form-label">Linkedin URL</label>
+                <input
+                  type="text"
+                  className={`form-control ${errors.linkedin_url ? "is-invalid" : ""}`}
+                  {...register("linkedin_url", { required: "Linkedin URL is required" })}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setValue("linkedin_url", val);
+                    trigger("linkedin_url");
+                  }}
+                />
+              </div>
+              {/* Facebook URL */}
+              <div className="mb-3">
+                <label className="form-label">Facebook URL</label>
+                <input
+                  type="text"
+                  className={`form-control ${errors.facebook_url ? "is-invalid" : ""}`}
+                  {...register("facebook_url", { required: "Facebook URL is required" })}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setValue("facebook_url", val);
+                    trigger("facebook_url");
+                  }}
+                />
               </div>
 
               {/* Image Upload */}
@@ -309,4 +294,4 @@ const AdminTestimonialsEdit = () => {
   );
 };
 
-export default AdminTestimonialsEdit;
+export default AdminTeamMemberEdit;

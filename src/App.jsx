@@ -23,6 +23,8 @@ import AdminArticleEdit from "./components/backend/AdminArticles/AdminArticleEdi
 import AdminTestimonials from "./components/backend/AdminTestimonials";
 import AdminTestimonialsCreate from "./components/backend/AdminTestimonials/AdminTestimonialsCreate";
 import AdminTestimonialsEdit from "./components/backend/AdminTestimonials/AdminTestimonialsEdit";
+import AdminTeamMemberCreate from "./components/backend/AdminTeamMember/AdminTeamMemberCreate";
+import AdminTeamMemberEdit from "./components/backend/AdminTeamMember/AdminTeamMemberEdit";
 
 function App() {
   return (
@@ -67,6 +69,10 @@ function App() {
           {/* Testimonials Routes */}
           <Route path="/admin/testimonials/create" element={<AdminTestimonialsCreate />} />
           <Route path="/admin/testimonials/edit/:id" element={<AdminTestimonialsEdit />} />
+
+          {/* Team Member Routes */}
+          <Route path="/admin/members/create" element={<AdminTeamMemberCreate />} />
+          <Route path="/admin/members/edit/:id" element={<AdminTeamMemberEdit />} />
         </Routes>
       </Router>
       <ToastContainer />

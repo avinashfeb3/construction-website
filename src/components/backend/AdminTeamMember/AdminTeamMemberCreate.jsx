@@ -4,9 +4,8 @@ import AdminLayout from "../AdminLayout";
 import { useForm } from "react-hook-form";
 import { apiUrl, token } from "../../common/http";
 import { toast } from "react-toastify";
-import ReactStars from "react-rating-stars-component";
 
-const AdminTestimonialsCreate = () => {
+const AdminTeamMemberCreate = () => {
   const [create, setCreate] = useState([]);
   const [content, setContent] = useState("");
   const [isDisable, setIsDisable] = useState(false);
@@ -38,7 +37,7 @@ const AdminTestimonialsCreate = () => {
         return;
       }
 
-      const url = `${apiUrl.replace(/\/+$/, "")}/testimonials`;
+      const url = `${apiUrl.replace(/\/+$/, "")}/members`;
 
       const options = {
         method: "POST",
@@ -67,7 +66,7 @@ const AdminTestimonialsCreate = () => {
       }
 
       if (result.status === true) {
-        toast.success(result.message || "Testimonial created successfully!", {
+        toast.success(result.message || "Team Member created successfully!", {
           autoClose: 1500,
         });
 
@@ -78,20 +77,20 @@ const AdminTestimonialsCreate = () => {
         setImagePreview(null);
         setImageId(null);
 
-        navigate("/admin/testimonials");
+        navigate("/admin/members");
       } else if (result.status === false) {
         if (result.errors) {
           Object.values(result.errors).flat().forEach((msg) =>
             toast.error(msg, { autoClose: 3000 })
           );
         } else {
-          toast.error(result.message || "Failed to create testimonial.", {
+          toast.error(result.message || "Failed to create team member.", {
             autoClose: 3000,
           });
         }
       }
     } catch (error) {
-      toast.error("Failed to create testimonial.", { autoClose: 3000 });
+      toast.error("Failed to create team member.", { autoClose: 3000 });
     }
   };
 
@@ -153,10 +152,10 @@ const AdminTestimonialsCreate = () => {
       <div className="mx-4 px-4 my-1 py-1">
         <div className="card shadow-sm border-0">
           <div className="card-body d-flex justify-content-between align-items-center mx-3 px-3 mt-2 pt-2 mb-1 pb-1">
-            <h3>Create Testimonials</h3>
+            <h3>Create Team Members</h3>
             <div className="d-flex mb-3 mt-2">
               <Link
-                to="/admin/testimonials"
+                to="/admin/members"
                 className="btn btn-primary d-flex align-items-center me-2"
               >
                 <span>Back</span>
@@ -171,105 +170,86 @@ const AdminTestimonialsCreate = () => {
           {/* 📝 Form Section */}
           <div className="mx-4 px-4">
             <form onSubmit={handleSubmit(onSubmit)}>
-              {/* Testimonials */}
+              {/* Name */}
               <div className="mb-3">
-                <label htmlFor="testimonials" className="form-label">
-                  Testimonials
-                </label>
-                <textarea
-                  id="testimonials"
-                  rows="4"
-                  className={`form-control ${
-                    errors.testimonial ? "is-invalid" : ""
-                  }`}
-                  placeholder="Enter Testimonials..."
-                  {...register("testimonial", {
-                    required: "The testimonials field is required",
-                  })}
-                ></textarea>
-                {errors.testimonial && (
-                  <p className="text-danger mt-2 invalid-feedback">
-                    {errors.testimonial.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Citation */}
-              <div className="mb-3">
-                <label htmlFor="citation" className="form-label">
-                  Citation
+                <label htmlFor="name" className="form-label">
+                  Name
                 </label>
                 <input
                   type="text"
-                  id="citation"
-                  className={`form-control ${errors.citation ? "is-invalid" : ""}`}
-                  placeholder="Enter Citation..."
-                  {...register("citation", {
-                    required: "The citation field is required",
+                  id="name"
+                  className={`form-control ${errors.name ? "is-invalid" : ""}`}
+                  placeholder="Enter Name..."
+                  {...register("name", {
+                    required: "The name field is required",
                   })}
                 />
-                {errors.citation && (
+                {errors.name && (
                   <p className="text-danger mt-2 invalid-feedback">
-                    {errors.citation.message}
+                    {errors.name.message}
                   </p>
                 )}
               </div>
 
               {/* Designation */}
               <div className="mb-3">
-                <label htmlFor="designation" className="form-label">
+                <label htmlFor="job_title" className="form-label">
                   Designation
                 </label>
                 <input
                   type="text"
-                  id="designation"
-                  className={`form-control ${errors.designation ? "is-invalid" : ""}`}
-                  placeholder="Enter Designation..."
-                  {...register("designation")}
+                  id="job_title"
+                  className={`form-control ${errors.job_title ? "is-invalid" : ""}`}
+                  placeholder="Enter Job Title..."
+                  {...register("job_title", {
+                    required: "The job title field is required",
+                  })}
                 />
-                {errors.designation && (
+                {errors.job_title && (
                   <p className="text-danger mt-2 invalid-feedback">
-                    {errors.designation.message}
+                    {errors.job_title.message}
                   </p>
                 )}
               </div>
 
-              {/* ⭐ Rating */}
+              {/* Linkedin */}
               <div className="mb-3">
-                <label className="form-label">Rating</label>
-                 <ReactStars
-                    count={5}
-                    value={Number(watch("rating") || 0)}
-                    className={`form-control ${
-                      errors.rating ? "is-invalid" : ""
-                  }`}
-                    onChange={(newRating) => setValue("rating", newRating)}
-                    size={30}
-                    activeColor="#ffd700"
-                  />
-
-                  {/* Select dropdown synced with ReactStars */}
-                  <select
-                    className={`form-control ${errors.rating ? "is-invalid" : ""}`}
-                    value={watch("rating") || ""}
-                    {...register("rating", {
-                      required: "The rating field is required",
-                      onChange: (e) => setValue("rating", Number(e.target.value)),
-                    })}
-                  >
-                    <option value="">Select</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
-                {errors.rating && (
+                <label htmlFor="linkedin_url" className="form-label">
+                  Linkedin
+                </label>
+                <input
+                  type="text"
+                  id="linkedin_url"
+                  className={`form-control ${errors.linkedin_url ? "is-invalid" : ""}`}
+                  placeholder="Enter Linkedin URL..."
+                  {...register("linkedin_url")}
+                />
+                {errors.linkedin_url && (
                   <p className="text-danger mt-2 invalid-feedback">
-                    {errors.rating.message}
+                    {errors.linkedin_url.message}
                   </p>
                 )}
-                </div>
+              </div> 
+              
+              {/* Facebook */}
+              <div className="mb-3">
+                <label htmlFor="facebook_url" className="form-label">
+                  Facebook
+                </label>
+                <input
+                  type="text"
+                  id="facebook_url"
+                  className={`form-control ${errors.facebook_url ? "is-invalid" : ""}`}
+                  placeholder="Enter Facebook URL..."
+                  {...register("facebook_url")}
+                />
+                {errors.facebook_url && (
+                  <p className="text-danger mt-2 invalid-feedback">
+                    {errors.facebook_url.message}
+                  </p>
+                )}
+              </div>
+
 
               {/* Image Upload */}
               <div className="mb-3">
@@ -350,4 +330,4 @@ const AdminTestimonialsCreate = () => {
   );
 };
 
-export default AdminTestimonialsCreate;
+export default AdminTeamMemberCreate;

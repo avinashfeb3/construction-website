@@ -1,11 +1,12 @@
 import React from 'react';
 import AdminLayout from "./AdminLayout";
+import AdminTeamMemberShow from './AdminTeamMember/AdminTeamMemberShow';
 
 const AdminMembers = () => {
   return (
     <>
         <AdminLayout>
-        <h1>Members Pages</h1>
+        <AdminTeamMemberShow/>
         </AdminLayout>
     
     </>

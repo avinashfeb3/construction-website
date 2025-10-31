@@ -1,29 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Layout from "../../../layout";
 import Buttons from "../../../common/Button";
-import { Link } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import { Autoplay, Pagination } from "swiper/modules";
 import AboutCommon from "../../../common/AboutCommon";
-import GoaImg from "../../../../assets/images/construction5.jpg";
-import DelhiImg from "../../../../assets/images/delhiproj.jpg";
-import LucknowImg from "../../../../assets/images/lucknowproj.jpeg";
-import KolkataImg from "../../../../assets/images/kolkataproj.jpg";
 import Icon1 from "../../../../assets/images/icon-1.svg";
 import Icon2 from "../../../../assets/images/icon-2.svg";
 import Icon3 from "../../../../assets/images/icon-3.svg";
-import AvatarImg from "../../../../assets/images/test-1.jpg";
-import AvatarImg2 from "../../../../assets/images/test-4.jpg";
-import AvatarImg3 from "../../../../assets/images/test-3.jpg";
-import AvatarImg4 from "../../../../assets/images/test-1.jpg";
-import BlogImg1 from "../../../../assets/images/construction1.jpg";
-import BlogImg2 from "../../../../assets/images/construction2.jpg";
-import BlogImg3 from "../../../../assets/images/construction3.jpg";
 import LatestServices from "../../../common/LatestServices";
 import LatestProjects from "../../../common/LatestProjects";
 import LatestArticles from "../../../common/LatestArticles";
+import LatestTestimonials from "../../../common/LatestTestimonials";
 
 const Home = () => {
   const handleContact = () => {};
@@ -147,179 +132,7 @@ const Home = () => {
         {/* Our Projects Section End */}
 
         {/* Testimonials Section Start */}
-        <section className="section-5 py-5">
-          <div className="container">
-            <div className="section-header text-center">
-              <span>our Testimonials</span>
-              <h2>What people are saying about us</h2>
-              <p>
-                Our clients consistently praise us for our exceptional service,
-                reliability, and attention to detail, <br /> highlighting how we
-                go above and beyond to exceed expectations.
-              </p>
-            </div>
-            <Swiper
-              modules={[Autoplay, Pagination]}
-              spaceBetween={50}
-              slidesPerView={3}
-              pagination={{ clickable: true }}
-              autoplay={{
-                delay: 2500,
-                disableOnInteraction: false,
-              }}
-              breakpoints={{
-                0: { slidesPerView: 1 }, // mobile
-                640: { slidesPerView: 1 }, // small screens
-                768: { slidesPerView: 2 }, // tablets
-                1024: { slidesPerView: 3 }, // desktop
-              }}
-            >
-              <SwiperSlide>
-                <div className="card shadow border-0">
-                  <div className="card-body p-4">
-                    <div className="ratings">
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                    </div>
-                    <div className="content pt-4 pb-2">
-                      <p>
-                        Urbanscape Builders exceeded our expectations in every
-                        way. The construction quality, timely delivery, and
-                        transparent communication made the entire experience
-                        seamless.
-                      </p>
-                    </div>
-                    <hr />
-                    <div className="d-flex meta">
-                      <div>
-                        <img
-                          src={AvatarImg}
-                          alt="Testmonial Logo 1"
-                          className="img-fluid"
-                          width={50}
-                        />
-                      </div>
-                      <div className="ps-3">
-                        <div className="name">Rajesh Mehta</div>
-                        <div>Managing Director, Mehta & Sons Pvt. Ltd.</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="card shadow border-0">
-                  <div className="card-body p-4">
-                    <div className="ratings">
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                    </div>
-                    <div className="content pt-4 pb-2">
-                      <p>
-                        We purchased our corporate office space through
-                        Urbanscape Builders, and the attention to detail was
-                        impeccable. Their team truly understands modern business
-                        needs.
-                      </p>
-                    </div>
-                    <hr />
-                    <div className="d-flex meta">
-                      <div>
-                        <img
-                          src={AvatarImg2}
-                          alt="Testmonial Logo 1"
-                          className="img-fluid"
-                          width={50}
-                        />
-                      </div>
-                      <div className="ps-3">
-                        <div className="name">Priya Sharma</div>
-                        <div>HR Head, TechNova Solutions</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="card shadow border-0">
-                  <div className="card-body p-4">
-                    <div className="ratings">
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                    </div>
-                    <div className="content pt-4 pb-2">
-                      <p>
-                        The entire process from initial consultation to
-                        possession was extremely well managed. I’d highly
-                        recommend Urbanscape Builders for any commercial or
-                        residential projects.
-                      </p>
-                    </div>
-                    <hr />
-                    <div className="d-flex meta">
-                      <div>
-                        <img
-                          src={AvatarImg3}
-                          alt="Testmonial Logo 1"
-                          className="img-fluid"
-                          width={50}
-                        />
-                      </div>
-                      <div className="ps-3">
-                        <div className="name">Rohit Verma</div>
-                        <div>Senior Architect, DesignHaus Studio</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className="card shadow border-0">
-                  <div className="card-body p-4">
-                    <div className="ratings">
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                      <i className="bi bi-star-fill"></i>
-                    </div>
-                    <div className="content pt-4 pb-2">
-                      <p>
-                        The entire process from initial consultation to
-                        possession was extremely well managed. I’d highly
-                        recommend Urbanscape Builders for any commercial or
-                        residential projects.
-                      </p>
-                    </div>
-                    <hr />
-                    <div className="d-flex meta">
-                      <div>
-                        <img
-                          src={AvatarImg4}
-                          alt="Testmonial Logo 1"
-                          className="img-fluid"
-                        />
-                      </div>
-                      <div className="ps-3">
-                        <div className="name">Kunal Kapoor</div>
-                        <div>Director, Horizon Technologies</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-            </Swiper>
-          </div>
-        </section>
+        <LatestTestimonials/>
         {/* Testimonials Section End */}
 
         {/* Articles & Blog Section Start */}

@@ -6,14 +6,14 @@ import { MdDelete } from "react-icons/md";
 import { IoIosAdd } from "react-icons/io";
 import { toast } from "react-toastify";
 
-const AdminTestimonialsShow = () => {
-  const [testimonials, setTestimonials] = useState([]);
+const AdminTeamMemberShow = () => {
+  const [teamMembers, setTeamMembers] = useState([]);
 
   // Services API Call Here
-  const fetchTestimonials = async () => {
+  const fetchTeamMembers = async () => {
     try {
       const authToken = token();
-      const url = `${apiUrl.replace(/\/+$/, "")}/testimonials`;
+      const url = `${apiUrl.replace(/\/+$/, "")}/members`;
 
       const options = {
         method: "GET",
@@ -23,7 +23,7 @@ const AdminTestimonialsShow = () => {
           ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
         },
       };
-      console.debug("Fetching projects", { url, hasToken: !!authToken });
+      console.debug("Fetching team members", { url, hasToken: !!authToken });
 
       const res = await fetch(url, options);
 
@@ -33,19 +33,19 @@ const AdminTestimonialsShow = () => {
 
       const result = await res.json();
       // console.log("Services response:", result);
-      setTestimonials(result?.data);
+      setTeamMembers(result?.data);
     } catch (error) {
-      console.error("Error fetching articles:", error);
+      console.error("Error fetching team members:", error);
     }
   };
 
   // Article Delete Function API Call Here
-  const deleteTestimonials = async (id) => {
-    if (confirm("Are you sure to delete this testimonial?") !== true) return;
+  const deleteTeamMember = async (id) => {
+    if (confirm("Are you sure to delete this team member?") !== true) return;
 
     try {
       const authToken = token();
-      const url = `${apiUrl.replace(/\/+$/, "")}/testimonials/${id}`;
+      const url = `${apiUrl.replace(/\/+$/, "")}/members/${id}`;
 
       const options = {
         method: "DELETE",
@@ -68,7 +68,7 @@ const AdminTestimonialsShow = () => {
 
       if (!res.ok) {
         const msg = result?.message || `HTTP error ${res.status}`;
-        toast.error(msg || "Failed to delete article.");
+        toast.error(msg || "Failed to delete team member.");
         return;
       }
 
@@ -76,20 +76,20 @@ const AdminTestimonialsShow = () => {
       const okFlag = result?.status === true || result?.success === true || res.status === 200;
 
       if (okFlag) {
-        // remove the deleted testimonial from local state immediately so no refresh required
-        setTestimonials((prev) => prev.filter((a) => a.id !== id));
-        toast.success(result?.message || "Testimonial deleted successfully.");
+        // remove the deleted team member from local state immediately so no refresh required
+        setTeamMembers((prev) => prev.filter((a) => a.id !== id));
+        toast.success(result?.message || "Team member deleted successfully.");
       } else {
-        toast.error(result?.message || "Failed to delete testimonial.");
+        toast.error(result?.message || "Failed to delete team member.");
       }
     } catch (error) {
-      console.error("Error deleting testimonial:", error);
-      toast.error("Failed to delete testimonial.");
+      console.error("Error deleting team member:", error);
+      toast.error("Failed to delete team member.");
     }
   };
 
   useEffect(() => {
-    fetchTestimonials();
+    fetchTeamMembers();
   }, []);
 
   return (
@@ -97,7 +97,7 @@ const AdminTestimonialsShow = () => {
       <div className="card shadow-sm border-0">
         <div className="card-body d-flex justify-content-between align-items-center mx-3 px-3 mt-2 pt-2 mb-1 pb-1">
           <h3>Testimonials</h3>
-          <Link to="/admin/testimonials/create" className="btn btn-secondary mb-1 d-flex align-items-center">
+          <Link to="/admin/members/create" className="btn btn-secondary mb-1 d-flex align-items-center">
             <IoIosAdd size={23} className="me-2" />
             <span>Create</span>
           </Link>
@@ -113,30 +113,29 @@ const AdminTestimonialsShow = () => {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Testimonials</th>
-                <th>Citation</th>
+                <th>Team Member Name</th>
                 <th>Designation</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {testimonials &&
-                testimonials.map((testimonial) => (
-                  <tr key={testimonial.id}>
-                    <td>{testimonial.id}</td>
-                    <td>{testimonial.testimonial}</td>
-                    <td>{testimonial.citation}</td>
-                    <td>{testimonial.designation}</td>
+              {teamMembers &&
+                teamMembers.map((member) => (
+                  <tr key={member.id}>
+                    <td>{member.id}</td>
+                    <td>{member.name}</td>
+                    <td>{member.job_title}</td>
+                    <td>{member.status}</td>
                     <td>{
-                    (testimonial.status == 1) ? 'Active' : 'Inactive'
+                    (member.status == 1) ? 'Active' : 'Inactive'
                     }
                     </td>
                     <td className="d-flex flex-wrap gap-2">
-                      <Link to={`/admin/testimonials/edit/${testimonial.id}`} className="btn btn-primary btn-sm me-2" title="Edit">
+                      <Link to={`/admin/members/edit/${member.id}`} className="btn btn-primary btn-sm me-2" title="Edit">
                         <FaRegEdit/>
                       </Link>
-                      <Link onClick={() => deleteTestimonials(testimonial.id)} className="btn btn-danger btn-sm" title="Delete">
+                      <Link onClick={() => deleteTeamMember(member.id)} className="btn btn-danger btn-sm" title="Delete">
                         <MdDelete/>
                       </Link>
                     </td>
@@ -151,4 +150,4 @@ const AdminTestimonialsShow = () => {
   );
 };
 
-export default AdminTestimonialsShow;
+export default AdminTeamMemberShow;
