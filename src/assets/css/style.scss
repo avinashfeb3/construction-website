@@ -58,6 +58,9 @@ p {
     border: 1px solid $primary-color;
   }
 }
+.text-primary{
+  color: $primary-color !important;
+}
 ul {
   margin-left: 0;
   padding-left: 0;
@@ -428,12 +431,41 @@ footer {
   }
 }
 
+// Services Details Page CSS Styles
+.service_details_wrapper{
+    .sidebar{
+      border-radius: 40px;
+    }
+    ul li a{
+      list-style:none;
+      text-decoration:none;
+      color:$text-color;
+      &:hover{
+        color:$primary-color;
+      }
+    }
+}
+
+// blog Details Page CSS Styles
+.blog_details_wrapper{
+  .blog_sidebar{
+    border-radius: 40px;
+  }
+  a{
+    text-decoration:none;
+    color:$text-color;
+    font-size: 1em;
+    &:hover{
+      color:$primary-color;
+    }
+  }
+}
+
 // Contact Page CSS Styles
 .contact-form-wrapper {
   .card {
     border-radius: 40px;
-    .card-body {
-    }
+    
   }
   a {
     text-decoration: none;

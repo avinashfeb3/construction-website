@@ -63,7 +63,7 @@ const LatestServices = ({ limit = 4 }) => {
                       <p>
                        {service.short_desc}
                       </p>
-                      <Link to="#" className="btn btn-primary small">
+                      <Link to={`services/service-details/${service.id}`} className="btn btn-primary small">
                         Read More
                       </Link>
                     </div>

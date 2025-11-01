@@ -64,7 +64,7 @@ const BlogGrid = () => {
                             {article.title}
                           </Link>
                         </div>
-                        <Link to="#" className="btn btn-primary mt-3 small">
+                        <Link to={`/blogs/blog-details/${article.id}`} className="btn btn-primary mt-3 small">
                           Read More
                         </Link>
                       </div>

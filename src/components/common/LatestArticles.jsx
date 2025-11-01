@@ -64,7 +64,7 @@ const LatestArticles = ({ limit = 3 }) => {
                             {article.title}
                           </Link>
                         </div>
-                        <Link to="#" className="btn btn-primary mt-3 small">
+                        <Link to={`/blog/articles/${article.id}`} className="btn btn-primary mt-3 small">
                           Read More
                         </Link>
                       </div>

@@ -15,6 +15,8 @@ const Dashboard = () => {
   const [totalArticles, setTotalArticles] = useState(0);
   const [testimonials, setTestimonials] = useState([]);
   const [totalTestimonials, setTotalTestimonials] = useState(0);
+  const [members, setMembers] = useState([]);
+  const [totalMembers, setTotalMembers] = useState(0);
 
   // ✅ Fetch Services API Call
   const fetchServices = async () => {
@@ -152,12 +154,48 @@ const Dashboard = () => {
     }
   };
 
+  // Fetch Team Member count
+  const fetchMembers = async () => {
+    try {
+      const authToken = token();
+      const url = `${apiUrl.replace(/\/+$/, "")}/members`;
+
+      const options = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+        },
+      };
+
+      console.debug("Fetching members", { url, hasToken: !!authToken });
+
+      const res = await fetch(url, options);
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const result = await res.json();
+      // console.log("Services response:", result);
+
+      // ✅ Set both data and total count
+      setMembers(result?.data || []);
+      setTotalMembers(result?.total_members || 0);
+    } catch (error) {
+      console.error("Error fetching members:", error);
+    }
+  };
+
+
   // Fetch services on component mount
   useEffect(() => {
     fetchServices();
     fetchProjects();
     fetchArticles();
     fetchTestimonials();
+    fetchMembers();
   }, []);
 
   // ✅ Dynamic dashboard cards
@@ -192,7 +230,7 @@ const Dashboard = () => {
     },
     {
       title: "Team Members",
-      value: totalArticles,
+      value: totalMembers,
       description: "Total Team Members",
       icon: <FaRegUser className="text-warning fs-2 me-2" />,
       color: "warning",

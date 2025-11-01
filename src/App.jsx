@@ -25,6 +25,9 @@ import AdminTestimonialsCreate from "./components/backend/AdminTestimonials/Admi
 import AdminTestimonialsEdit from "./components/backend/AdminTestimonials/AdminTestimonialsEdit";
 import AdminTeamMemberCreate from "./components/backend/AdminTeamMember/AdminTeamMemberCreate";
 import AdminTeamMemberEdit from "./components/backend/AdminTeamMember/AdminTeamMemberEdit";
+import ServiceDetails from "./components/Frontend/pages/Services/ServiceDetails";
+import ProjectDetails from "./components/Frontend/pages/Projects/ProjectDetails";
+import BlogDetails from "./components/Frontend/pages/Blogs/BlogDetails";
 
 function App() {
   return (
@@ -57,14 +60,17 @@ function App() {
           <Route path="/admin/services" element={<AdminServices />} />
           <Route path="/admin/services/create" element={<AdminServicesCreate />} />
           <Route path="/admin/services/edit/:id" element={<AdminServicesEdit />} />
+          <Route path="/services/service-details/:id" element={<ServiceDetails />} />
 
           {/* Project Routes */}
           <Route path="/admin/projects/create" element={<AdminProjectCreate />} />
           <Route path="/admin/projects/edit/:id" element={<AdminProjectEdit />} />
+          <Route path="/projects/project-details/:id" element={<ProjectDetails />} />
 
           {/* Article Routes */}
           <Route path="/admin/articles/create" element={<AdminArticlesCreate />} />
           <Route path="/admin/articles/edit/:id" element={<AdminArticleEdit />} />
+          <Route path="/blog/articles/:id" element={<BlogDetails />} />
 
           {/* Testimonials Routes */}
           <Route path="/admin/testimonials/create" element={<AdminTestimonialsCreate />} />
